@@ -6,20 +6,27 @@ const Home = () => {
     { title: 'Welcome party!', body: 'lorem ipsum...', author: 'yoshi', id: 2 },
     { title: 'Web dev top tips', body: 'lorem ipsum...', author: 'mario', id: 3 }
   ])
-  const [routes, setRoutes] = useState([]);
+  const [routes, setRoutes] = useState(null);
   const [directions, setDirections] = useState(null);
   const [stops, setStops] = useState(null);
   const [searchDetails, setSearchDetails] = useState([]);
+  const [error, setError] = useState(null)
   const fetchRoutes = () => {
     fetch('https://svc.metrotransit.org/NexTrip/Routes', {headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json'
     }})
       .then(res => {
+        if(!res.ok) {
+          throw Error('could not fetch routes');
+        }
         return res.json();
       })
       .then(data => {
         setRoutes(data);
+      })
+      .catch (err => {
+        setError(err.message)
       })
   }
   const fetchDirections = (e) => {
@@ -29,10 +36,16 @@ const Home = () => {
       'Accept': 'application/json'
     }})
       .then(res => {
+        if(!res.ok) {
+          throw Error('could not fetch directions');
+        }
         return res.json();
       })
       .then(data => {
         setDirections(data);
+      })
+      .catch (err => {
+        setError(err.message)
       })
   }
 
@@ -42,10 +55,16 @@ const Home = () => {
       'Accept': 'application/json'
     }})
       .then(res => {
+        if(!res.ok) {
+          throw Error('could not fetch stops');
+        }
         return res.json();
       })
       .then(data => {
         setStops(data);
+      })
+      .catch (err => {
+        setError(err.message)
       })
   }
 
@@ -68,14 +87,17 @@ const Home = () => {
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-8">
-          <div class="form-group">
-            <label for="exampleInputEmail1">          Choose Route :   </label>
-            <select name="routes" onChange= {(e) => fetchDirections(e)}>
-          {routes.map(item => (
-            <option value={ item.Route }>{item.Description }</option>
-              ))}
-          </select>
-    </div>
+         {error && <div className="alert alert-danger">{error}</div>}   
+          {routes && 
+            <div class="form-group">
+                <label for="exampleInputEmail1">          Choose Route :   </label>
+                <select name="routes" onChange= {(e) => fetchDirections(e)}>
+                  {routes.map(item => (
+                    <option value={ item.Route }>{item.Description }</option>
+                      ))}
+                </select>
+            </div>
+          }
 
           {directions && 
             <div class="form-group">

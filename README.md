@@ -1,4 +1,4 @@
-# nexTrip# Plan NextTrip app
+# Plan NextTrip app
 
 This project was created with an intent to predict and plan your metro travel within Minneapolis
 

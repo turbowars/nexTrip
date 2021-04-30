@@ -1,34 +1,14 @@
 
 import { useEffect, useState } from "react";
+import useFetch from "./useFetch";
 const Home = () => {
-  const [blogs, setBlogs] = useState([
-    { title: 'My new website', body: 'lorem ipsum...', author: 'mario', id: 1 },
-    { title: 'Welcome party!', body: 'lorem ipsum...', author: 'yoshi', id: 2 },
-    { title: 'Web dev top tips', body: 'lorem ipsum...', author: 'mario', id: 3 }
-  ])
-  const [routes, setRoutes] = useState(null);
   const [directions, setDirections] = useState(null);
   const [stops, setStops] = useState(null);
   const [searchDetails, setSearchDetails] = useState([]);
-  const [error, setError] = useState(null)
-  const fetchRoutes = () => {
-    fetch('https://svc.metrotransit.org/NexTrip/Routes', {headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-    }})
-      .then(res => {
-        if(!res.ok) {
-          throw Error('could not fetch routes');
-        }
-        return res.json();
-      })
-      .then(data => {
-        setRoutes(data);
-      })
-      .catch (err => {
-        setError(err.message)
-      })
-  }
+
+  //Fetch routes with custom hook
+  const { error, data: routes } = useFetch('https://svc.metrotransit.org/NexTrip/Routes');
+
   const fetchDirections = (e) => {
     setSearchDetails(e.target.value);
     fetch('https://svc.metrotransit.org/NexTrip/Directions/'+e.target.value, {headers: {
@@ -70,17 +50,6 @@ const Home = () => {
 
 
 
-  useEffect(() => {
-    console.log('Ran on route update');
-  },[routes])
-
-  useEffect(() => {
-    console.log('ran on direction upd');
-  },[directions])
-
-  useEffect(() => {
-    fetchRoutes();
-  }, [])
 
   return (
     <div className="home">
@@ -112,7 +81,7 @@ const Home = () => {
           }
           {stops && 
           <div className="stops-data mt-5">
-            <h1>Show Stops </h1>
+            <h1>List of Stops</h1>
             <table class="table table-dark mt-3">
               <thead>
                 <tr>

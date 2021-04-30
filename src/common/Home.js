@@ -7,7 +7,7 @@ const Home = () => {
     { title: 'Web dev top tips', body: 'lorem ipsum...', author: 'mario', id: 3 }
   ])
   const [routes, setRoutes] = useState([]);
-  const [directions, setDirections] = useState([]);
+  const [directions, setDirections] = useState(null);
   const [stops, setStops] = useState(null);
   const [searchDetails, setSearchDetails] = useState([]);
   const fetchRoutes = () => {
@@ -67,23 +67,27 @@ const Home = () => {
     <div className="home">
       <div className="container">
         <div className="row justify-content-center">
-          <div className="col-8 text-center">
-
-          Choose Routes
-
-          <select name="routes" onChange= {(e) => fetchDirections(e)}>
+          <div className="col-8">
+          <div class="form-group">
+            <label for="exampleInputEmail1">          Choose Route :   </label>
+            <select name="routes" onChange= {(e) => fetchDirections(e)}>
           {routes.map(item => (
             <option value={ item.Route }>{item.Description }</option>
               ))}
           </select>
-          
-      Choose direction
-      
-          <select name="directions" onChange= {(e) => fetchStops(e)}>
-            {directions.map(item => (
-              <option value={ item.Value }>{item.Text }</option>
-                ))}
-          </select> 
+    </div>
+
+          {directions && 
+            <div class="form-group">
+            <label for="exampleInputEmail1">          Choose Direction :   </label>
+        
+            <select name="directions" onChange= {(e) => fetchStops(e)}>
+              {directions.map(item => (
+                <option value={ item.Value }>{item.Text }</option>
+                  ))}
+            </select> 
+            </div>
+          }
           {stops && 
           <div className="stops-data mt-5">
             <h1>Show Stops </h1>

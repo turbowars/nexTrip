@@ -1,17 +1,22 @@
 import 'bootstrap';
-
-import getUsers from "./routesApi"
 import Header from './Header';
 import Home from './Home';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import About from './About';
 
 function App() {
   return (
-    <div className="root-app">
-      <Header />
-      <div className="content">
-        <Home />
+    <Router>
+      <div className="root-app">
+        <Header />
+        <div className="content">
+          <Switch>
+          <Route exact path="/" component={Home} />
+          <Route path="/about" component={About} />
+          </Switch>
+        </div>
       </div>
-    </div>
+    </Router>
   );
 }
 

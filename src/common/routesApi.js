@@ -1,4 +1,4 @@
-const ENDPOINT = "https://jsonplaceholder.typicode.com/users/";
+const ENDPOINT = "https://svc.metrotransit.org/NexTrip/Routes";
 
 export function getUsers() {
   return fetch(ENDPOINT)

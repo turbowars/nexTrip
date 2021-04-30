@@ -8,7 +8,7 @@ const Home = () => {
   ])
   const [routes, setRoutes] = useState([]);
   const [directions, setDirections] = useState([]);
-  const [stops, setStops] = useState([]);
+  const [stops, setStops] = useState(null);
   const [searchDetails, setSearchDetails] = useState([]);
   const fetchRoutes = () => {
     fetch('https://svc.metrotransit.org/NexTrip/Routes', {headers: {
@@ -66,7 +66,7 @@ const Home = () => {
   return (
     <div className="home">
       <div className="container">
-        <div className="row">
+        <div className="row justify-content-center">
           <div className="col-8 text-center">
 
           Choose Routes
@@ -84,13 +84,32 @@ const Home = () => {
               <option value={ item.Value }>{item.Text }</option>
                 ))}
           </select> 
+          {stops && 
+          <div className="stops-data mt-5">
+            <h1>Show Stops </h1>
+            <table class="table table-dark mt-3">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Stops</th>
+                </tr>
+              </thead>
+              <tbody>
+              {stops.map(item => (
+                <tr>
+                  <th scope="row">{item.Value}</th>
+                  <td>{ item.Text }</td>
+                </tr>
+              ))}
+                
+              </tbody>
+            </table>
+          </div>
+          }
 
-          Show Stops
-          {stops.map(item => (
-            <div className="stop-preview" data-id={item.Value} >
-              <h2>{ item.Text }</h2>
-            </div>
-          ))}
+
+          
+          
 
 
           </div>
